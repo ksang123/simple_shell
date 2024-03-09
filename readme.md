@@ -7,7 +7,7 @@
 - implement the basic bash commands like `cd`, `echo`, `history`
 
 ### default commands
-- allow the user to run default shell commands 
+- allow the user to run default shell commands using `bash`
 
 ### external commands
 - implement external commands using a /bin in the `/ByteX`
@@ -17,10 +17,6 @@
 - detect the machine's C compiler and save it to a file
 - (install a C compiler for the user?)
 - `compile bin` command that will compile all commands at once
-
-### permission management
-- the shell will be able to run without super permissions
-- the shell will be able to perform super commands using a custom `sudo`
 
 ## extreme features
 - those features will prob not be added, but I would like to consider them:
@@ -47,7 +43,6 @@
 ### default commands
 - `bash` to run default OS commands - counts as a basic command
 - allow the user to run default shell commands
-- permission management for default commands
 
 ### external commands
 - find the user's C compiler (offer to install gcc?)
