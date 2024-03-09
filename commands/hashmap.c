@@ -60,6 +60,9 @@ void (*get(HashMap* map, char key[MAX_COMMAND_LEN]))(char command[MAX_COMMAND_LE
 }
 
 void free_map(HashMap* map) {
+    if (map == NULL) {
+        return;
+    }
     for (int i = 0; i < BUCKETS; i++) {
         free_list(map->buckets[i]);
     }

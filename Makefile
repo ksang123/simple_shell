@@ -1,12 +1,11 @@
 CC = gcc
-files := main.c commands
+files := $(wildcard commands/*.c)
 
+clean: run
+	@rm -r output
 
-.PHONY: clean
-clean:
-	rm -r $(BUILD_DIR)
+run: compile
+	@./output
 
-# Include the .d makefiles. The - at the front suppresses the errors of missing
-# Makefiles. Initially, all the .d files will be missing, and we don't want those
-# errors to show up.
--include $(DEPS)
+compile:
+	@$(CC) main.c $(files) -o output

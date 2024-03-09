@@ -1,5 +1,3 @@
-//gcc main.c commands/hashmap.c commands/built-ins.c -o output
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,6 +64,7 @@ void terminal(char* user, char* machine) {
         fgets(command, sizeof(command), stdin);
         command[strcspn(command, "\n")] = '\0';
     }
+    free_map(map);
 }
 
 int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]) {
@@ -76,6 +75,7 @@ int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]) {
     void (*func_ptr)(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]) = get(map, cmd);
     if (func_ptr == NULL) {
         printf("\033[0;31mError: \033[1;36m%s \033[0;31mdoes not exist\n", cmd);
+        return 0;
     }
     (func_ptr)(command, path);
     return 0;
