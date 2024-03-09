@@ -36,7 +36,6 @@
 - `grep` implementing efficiently would be challenging
 - `find` to search for files
 - `byteforge` - print a cool ascii logo and some details
-- `bash` to run default OS commands
 
 ### external commands
 - find the user's C compiler (offer to install gcc?)

@@ -52,7 +52,7 @@ int get_names(char* user, char* machine) {
 
 void terminal(char* user, char* machine) {
     HashMap* map = create_command_map();
-    char path[MAX_PATH_DEPTH][MAX_PATH_LEN] = {"~"}, command[200],
+    char path[MAX_PATH_DEPTH][MAX_PATH_LEN] = {"~"}, command[MAX_COMMAND_LEN],
             str[MAX_PATH_LEN * MAX_PATH_DEPTH];
     printf("\033[1;34m%s@%s-\033[0;32m[%s]\033[1;34m $ \033[0m",
            user, machine, path_to_string(str, path));
@@ -86,7 +86,12 @@ char* path_to_string(char* str, char path[][MAX_PATH_LEN]) {
     int index = 0;
     for (int i = 0; i < MAX_PATH_DEPTH; i++) {
         if (strlen(path[i]) == 0) {
-            str[index] = '\0';
+            if (index > 0) {
+                // Remove the last '/' if the path is not empty
+                str[index - 1] = '\0';
+            } else {
+                str[index] = '\0';
+            }
             return str;
         }
         strcpy(&str[index], path[i]);
@@ -94,7 +99,8 @@ char* path_to_string(char* str, char path[][MAX_PATH_LEN]) {
         str[index] = '/';
         index++;
     }
-    str[index] = '\0';
+    str[index - (index > 0 ? 1 : 0)] = '\0';
+    printf("%s", str);
     return str;
 }
 
