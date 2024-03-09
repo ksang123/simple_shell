@@ -3,4 +3,6 @@ project(simple_shell C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(simple_shell main.c)
+add_executable(simple_shell main.c
+        commands/hashmap.c
+        commands/built-ins.c)

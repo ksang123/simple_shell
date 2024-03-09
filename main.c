@@ -1,6 +1,10 @@
+//gcc main.c commands/hashmap.c commands/built-ins.c -o output
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "commands/hashmap.h"
+#include "commands/built_ins.h"
 
 #define MAX_STRING 200
 #define MAX_PATH_LEN 50
@@ -8,9 +12,10 @@
 
 void terminal(char* user, char* machine);
 int get_names(char* user, char* machine);
-int execute(char* command, char path[][MAX_PATH_LEN]);
+int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]);
 char* path_to_string(char str[MAX_PATH_LEN * MAX_PATH_DEPTH],
                      char path[][MAX_PATH_LEN]);
+HashMap* create_command_map();
 
 int main(void) {
     char user[MAX_STRING], machine[MAX_STRING];
@@ -48,13 +53,14 @@ int get_names(char* user, char* machine) {
 }
 
 void terminal(char* user, char* machine) {
+    HashMap* map = create_command_map();
     char path[MAX_PATH_DEPTH][MAX_PATH_LEN] = {"~"}, command[200],
             str[MAX_PATH_LEN * MAX_PATH_DEPTH];
     printf("\033[1;34m%s@%s-\033[32m[%s]\033[1;34m $ \033[0m",
            user, machine, path_to_string(str, path));
     fgets(command, sizeof(command), stdin);
     command[strcspn(command, "\n")] = '\0';
-    while (execute(command, path) == 0) {
+    while (execute(map, command, path) == 0) {
         printf("\033[1;34m%s@%s-\033[32m[%s]\033[1;34m $ \033[0m",
                user, machine, path_to_string(str, path));
         fgets(command, sizeof(command), stdin);
@@ -62,15 +68,18 @@ void terminal(char* user, char* machine) {
     }
 }
 
-int execute(char* command, char path[][MAX_PATH_LEN]) {
+int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]) {
     if (strcmp(command, "exit") == 0) {
         return 1;
     }
-    if (strncmp(command, "bash", 4) == 0) {
-        system(&command[5]);
+    char* cmd = strtok(command, " ");;
+    void (*func_ptr)(char path[][MAX_PATH_LEN]) = (void (*)(char path[][MAX_PATH_LEN]))get(map, cmd);
+    if (func_ptr == NULL) {
+        printf("\033[31mError: \0331;34m%s \033[31mdoes not exist\n", cmd);
     }
     return 0;
 }
+
 
 char* path_to_string(char* str, char path[][MAX_PATH_LEN]) {
     int index = 0;
@@ -86,4 +95,10 @@ char* path_to_string(char* str, char path[][MAX_PATH_LEN]) {
     }
     str[index] = '\0';
     return str;
+}
+
+HashMap* create_command_map() {
+    HashMap *map = new_map();
+    char cmd[MAX_COMMAND_LEN] = "bash";
+    insert(map, cmd, bash);
 }
