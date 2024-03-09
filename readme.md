@@ -27,8 +27,6 @@
 ## todo
 
 ### basic shell behavior
-- ANSICON for windows
-- implement the shell UI
 - implement working directory
 
 ### basic shell commands
@@ -39,10 +37,6 @@
 - `find` to search for files
 - `byteforge` - print a cool ascii logo and some details
 - `bash` to run default OS commands
-
-### default commands
-- `bash` to run default OS commands - counts as a basic command
-- allow the user to run default shell commands
 
 ### external commands
 - find the user's C compiler (offer to install gcc?)
