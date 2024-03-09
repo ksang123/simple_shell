@@ -1,5 +1,5 @@
 # ByteForge - a simple shell
-- a linux like - multiplatform shell implementation
+- a linux like shell implementation for linux
 
 ## goals
 
