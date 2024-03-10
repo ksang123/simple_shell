@@ -16,6 +16,7 @@ int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]);
 char* path_to_string(char str[MAX_PATH_LEN * MAX_PATH_DEPTH],
                      char path[][MAX_PATH_LEN]);
 HashMap* create_command_map();
+void get_input(char input[MAX_INPUT]);
 
 int main(void) {
     char user[MAX_STRING], machine[MAX_STRING];
@@ -62,7 +63,7 @@ int get_names(char* user, char* machine) {
 
 void terminal(char* user, char* machine) {
     HashMap* map = create_command_map();
-    char path[MAX_PATH_DEPTH][MAX_PATH_LEN] = {"~"}, command[MAX_COMMAND_LEN],
+    char path[MAX_PATH_DEPTH][MAX_PATH_LEN] = {"~"}, command[MAX_INPUT],
             str[MAX_PATH_LEN * MAX_PATH_DEPTH];
     printf("\033[1;34m%s@%s-\033[0;32m[%s]\033[1;34m $ \033[0m",
            user, machine, path_to_string(str, path));
@@ -82,7 +83,7 @@ int execute(HashMap* map, char* command, char path[][MAX_PATH_LEN]) {
         return 1;
     }
     char* cmd = strtok(command, " ");;
-    void (*func_ptr)(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]) = get(map, cmd);
+    void (*func_ptr)(char command[MAX_INPUT], char path[][MAX_PATH_LEN]) = get(map, cmd);
     if (func_ptr == NULL) {
         printf("\033[0;31mError: \033[1;36m%s \033[0;31mdoes not exist\n", cmd);
         return 0;
@@ -116,7 +117,19 @@ char* path_to_string(char* str, char path[][MAX_PATH_LEN]) {
 
 HashMap* create_command_map() {
     HashMap *map = new_map();
-    char cmd[MAX_COMMAND_LEN] = "bash";
+    char cmd[MAX_INPUT] = "bash";
     insert(map, cmd, bash);
+    strcpy(cmd, "clear");
+    insert(map, cmd, clear);
     return map;
 }
+
+void get_command(char command[MAX_INPUT]) {
+
+}
+
+//TODO:
+//get commands using ncurses
+//add default commands:
+//rm-rmdir will require confirmation / [y/N] type
+//add external commands

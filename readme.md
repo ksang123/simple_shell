@@ -30,7 +30,7 @@
 - implement working directory
 
 ### basic shell commands
-- implement: `echo`, `cd`, `pwd`, `ls`, `mkdir`, `touch`, `time`
+- implement: `echo`, `cd`, `pwd`, `ls`, `mkdir`, `touch`, `time`, `clear`
 - `rmdir`, `rm` - will require confirmation
 - `alias`, `history` - requires a file for saving information
 - `grep` implementing efficiently would be challenging

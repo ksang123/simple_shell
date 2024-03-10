@@ -6,7 +6,7 @@
 HashMap* new_map() {
     HashMap* map = (HashMap*) malloc(sizeof(HashMap));
     if (map == NULL) {
-        printf("\033[31mMemory allocation failed\n");
+        printf("\033[0;31mMemory allocation failed\n");
         exit(1);
     }
     for (int i = 0; i < BUCKETS; i++) {
@@ -15,12 +15,12 @@ HashMap* new_map() {
     return map;
 }
 
-void insert(HashMap* map, char key[MAX_COMMAND_LEN], void (*function_ptr)(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN])) {
+void insert(HashMap* map, char key[MAX_INPUT], void (*function_ptr)(char command[MAX_INPUT], char path[][MAX_PATH_LEN])) {
     List* last = map->buckets[key[0]-'a'];
     if (last == NULL) {
         map->buckets[key[0]-'a'] = (List*) malloc(sizeof(List));
         if (map->buckets[key[0]-'a'] == NULL) {
-            printf("\033[31mMemory allocation failed\n");
+            printf("\033[0;31mMemory allocation failed\n");
             exit(1);
         }
         strcpy(map->buckets[key[0]-'a']->key, key);
@@ -42,7 +42,7 @@ void insert(HashMap* map, char key[MAX_COMMAND_LEN], void (*function_ptr)(char c
     last->next = NULL;
 }
 
-void (*get(HashMap* map, char key[MAX_COMMAND_LEN]))(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]) {
+void (*get(HashMap* map, char key[MAX_INPUT]))(char command[MAX_INPUT], char path[][MAX_PATH_LEN]) {
     if (strlen(key) == 0) {
         return NULL;
     }
@@ -50,8 +50,11 @@ void (*get(HashMap* map, char key[MAX_COMMAND_LEN]))(char command[MAX_COMMAND_LE
     if (list == NULL) {
         return NULL;
     }
+    int len;
     while (list != NULL) {
-        if (strncmp(list->key, key, strlen(list->key)) == 0) {
+        len = (int)strlen(list->key);
+        if (strncmp(list->key, key, len) == 0 &&
+                (key[len] == ' ' || key[len] == '\0')) {
             return list->function_ptr;
         }
         list = (List *) list->next;

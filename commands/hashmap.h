@@ -11,20 +11,20 @@
 
 
 typedef struct {
-    char key[MAX_COMMAND_LEN];
-    void (*function_ptr)(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]);
+    char key[MAX_INPUT];
+    void (*function_ptr)(char command[MAX_INPUT], char path[][MAX_PATH_LEN]);
     struct List* next;
 } List;
 
 typedef struct {
-    List* buckets[BUCKETS]; //'z'-'a' + 1, a bucket for every letter
+    List* buckets[BUCKETS]; //'z'-'a' + 1, a bucket for every letter'
 } HashMap;
 
 HashMap* new_map();
 void free_map(HashMap* map);
 void free_list(List* list);
-void (*get(HashMap* map, char key[MAX_COMMAND_LEN]))(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]);
-void insert(HashMap* map, char key[MAX_COMMAND_LEN], void (*function_ptr)(char command[MAX_COMMAND_LEN], char path[][MAX_PATH_LEN]));
+void (*get(HashMap* map, char key[MAX_INPUT]))(char command[MAX_INPUT], char path[][MAX_PATH_LEN]);
+void insert(HashMap* map, char key[MAX_INPUT], void (*function_ptr)(char command[MAX_INPUT], char path[][MAX_PATH_LEN]));
 
 
 #endif //HASHMAP_H
