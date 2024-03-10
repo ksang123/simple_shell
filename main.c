@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include <string.h>
 #include "commands/hashmap.h"
 #include "commands/built_ins.h"
+#include <sys/stat.h>
 
 #define MAX_STRING 200
 #define MAX_PATH_LEN 50
@@ -26,6 +28,14 @@ int main(void) {
 }
 
 int get_names(char* user, char* machine) {
+    DIR* dir = opendir("./info");
+    if (!dir) {
+        if (mkdir("./info", 0777) != 0) {
+            printf("Failed to create directory.\n");
+            return 1;
+        }
+        printf("Directory created.\n");
+    }
     FILE *host_info = fopen("./info/host_info.txt", "r");
     if (host_info == NULL) {
         system("echo $(whoami) > ./info/host_info.txt");
